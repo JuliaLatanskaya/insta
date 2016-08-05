@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Instagram</title>
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="main.css"/>
+    </head>
+    <body>
+        <div class="main">
+            <div class="top_bar">
+                <span>Posts: #posts</span>
+                <button>Export button</button>
+                <span>Views: #views</span>  
+            </div>
+            <div class="reply_box">
+                <form action="instagram.php" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="MAX_FILE_SIZE" value="500000" /><!-- 2097152 -->
+                    Your Photo: <input type="file" name="photo" size="25" />
+                    <input type="submit" name="submit" value="Submit" />
+                </form>
+            </div>
+            <div class="posts">
+                
+            </div>
+        </div>
+        
+        {{ content | raw }}
+
+        <footer>
+          Copyright
+        </footer>
+    </body>
+</html>
