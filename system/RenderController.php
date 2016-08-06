@@ -1,6 +1,8 @@
 <?php
 namespace Insta\system;
 
+use Insta\libs\BaseException;
+
 class RenderController
 {
     private $twig;
@@ -10,6 +12,7 @@ class RenderController
     {
         $templateEngine = new \Twig_Loader_Filesystem('views');
         $this->twig = new \Twig_Environment($templateEngine);
+        $this->twig->addGlobal('siteBase', FrontController::$config['siteBase']);
     }
     
     public function setContent($content)
@@ -23,9 +26,8 @@ class RenderController
      */
     public function renderTemplate($template, $params)  
     {
-        if (!is_array($params) && is_string($template)) {
-            echo 'bad';
-            exit;
+        if (!is_array($params) || !is_string($template)) {
+            throw new BaseException("got wrong template name $template or params");
         }
         return $this->twig->render($template, $params); 
     }

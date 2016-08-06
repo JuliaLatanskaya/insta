@@ -1,0 +1,21 @@
+{
+  "name": "insta",
+  "homepage": "https://github.com/JuliaLatanskaya/insta",
+  "authors": [
+    "Julia Latanskaya <julia.latanskaya@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0"
+  }
+}
