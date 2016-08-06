@@ -3,32 +3,36 @@
     <head>
         <meta charset="UTF-8">
         <title>Instagram</title>
-        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
-        <link rel="stylesheet" type="text/css" href="main.css"/>
+        <link rel="shortcut icon" href="favicon.ico?" type="image/x-icon">
+        <link rel="stylesheet" type="text/css" href="css/main.css"/>
     </head>
     <body>
         <div class="main">
-            <div class="top_bar">
-                <span>Posts: #posts</span>
-                <button>Export button</button>
-                <span>Views: #views</span>  
-            </div>
-            <div class="reply_box">
-                <form action="instagram.php" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="MAX_FILE_SIZE" value="500000" /><!-- 2097152 -->
-                    Your Photo: <input type="file" name="photo" size="25" />
-                    <input type="submit" name="submit" value="Submit" />
-                </form>
-            </div>
-            <div class="posts">
-                
+            <div class="content">
+                <div class="top_bar">
+                    <p>Posts: #posts</p>
+                    <p><button>Export button</button></p>
+                    <p>Views: #views</p>  
+                </div>
+                <div class="reply_box">
+                    <form id="reply_box" onsubmit="return false;" action="" method="post" enctype="multipart/form-data">
+                        <input type="hidden" name="MAX_FILE_SIZE" value="2097152" /><!-- file size not bigger than 2Mb -->
+                        <input type="text" name="title" value="" />
+                        Your Photo: <input type="file" name="photo" size="25" />
+                        <input type="submit" name="submit" value="Submit" />
+                    </form>
+                    <p id="form_error"></p>
+                </div>
+                <div class="posts">
+                    {{ content | raw }}
+                </div>
             </div>
         </div>
-        
-        {{ content | raw }}
-
+    
         <footer>
-          Copyright
+          <p>&copy; 2016 Julia Latanskaya &lt;<a href="mailto:julia.latanskaya@gmail.com">julia.latanskaya@gmail.com</a>&gt;<p>
         </footer>
+        <script type="text/javascript" src="bower_components/jquery/dist/jquery.min.js"></script>
+        <script type="text/javascript" src="js/main.js"></script>
     </body>
 </html>

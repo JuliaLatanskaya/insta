@@ -46,7 +46,6 @@ class FileUploader
                 if(!$this->error) {
                     if ($uniqueTempFile = tempnam($this->storage, 'insta')) {
                         $fileExtension = pathinfo($_FILES['photo']['name'], PATHINFO_EXTENSION);
-                        //echo $uniqueTempFile. '.' . $fileExtension; exit;
                         if (move_uploaded_file($_FILES['photo']['tmp_name'], $uniqueTempFile. '.' . $fileExtension)) {
                             $this->uploadedFile = pathinfo($uniqueTempFile, PATHINFO_FILENAME) . '.' . $fileExtension;
                         } else {

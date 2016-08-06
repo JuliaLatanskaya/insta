@@ -8,7 +8,8 @@ class FrontController
     private $controller;
     public static $config;
     
-    private $routeTable = array('default' =>
+    private $routeTable = array(
+                            'default' =>
                                 array ('controller' => 'home', 'view' =>'view'),
                             'add' =>
                                 array ('controller' => 'post', 'view' =>'view', 'defaultAction' => 'createPost'),

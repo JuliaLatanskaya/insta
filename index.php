@@ -12,6 +12,7 @@ require_once('libs/BaseException.php');
 require_once('libs/MongoDb.php');
 require_once('system/FrontController.php');
 require_once('system/RenderController.php');
+require_once('system/FileUploader.php');
 
 require_once('models/Post.php');
 
@@ -22,5 +23,5 @@ try {
         isset($_GET['action']) ? $_GET['action'] : null
     );
 } catch (BaseException $e) {
-    print_r($e->getMessage());
+    print_r($e->getMessage()); //TODO: Replace with Exception handler
 }

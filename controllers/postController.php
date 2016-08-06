@@ -3,15 +3,9 @@ namespace Insta\controllers;
 
 use Insta\system\FileUploader;
 use Insta\models\Post;
-use Insta\libs\BaseException;
 
 class PostController
-{
-    public function run()
-    {
-       echo 'run mwthod';
-    }
-    
+{    
     public function createPost()
     {
         $post = null;

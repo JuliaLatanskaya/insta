@@ -1,4 +1,4 @@
 {% for post in posts %}
     <p>{{ post.title }}</p>
-    <p>{{ post.author }}</p>
+    <img src="http://{{ siteBase }}/uploads/{{ post.file }}" alt="{{ post.title }}" />
 {% endfor %}
