@@ -35,12 +35,12 @@ class MongoDb
             try {
                 self::getInstance()->$collection->insertOne($object);
             } catch (\MongoDB\Exception\InvalidArgumentException $e) {
-                 throw new BaseException("Wrong Argument was passed to insert(): ".$e->getMessage(), 0, $e);
+                 throw new BaseException("Wrong Argument was passed to insert(): " . $e->getMessage(), 0, $e);
             } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
-                throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
+                throw new BaseException("Connection with database missed: " .$e->getMessage(), 0, $e);
             }
         } else {
-            throw new BaseException("Wrong Argument was passed to insert():  $object");
+            throw new BaseException("Wrong Argument was passed to insert():  " . json_encode($object));
         }
     }
     
@@ -55,7 +55,42 @@ class MongoDb
                 }               
             }
         } catch (\MongoDB\Exception\InvalidArgumentException $e) {
-             throw new BaseException("Wrong Argument was passed to find() $params", 0, $e);
+             throw new BaseException("Wrong Argument was passed to find() : " .json_encode($params), 0, $e);
+        } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+            throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
+        }
+        
+        return $result;
+    }
+    
+    public static function updateOne($collection, $params, $update)
+    {
+        try {
+            if ((is_array($params) || is_object($params)) && (is_array($update) || is_object($update))) {
+                $result = self::getInstance()->$collection->updateOne($params, array('$set' => $update));                             
+            }
+        } catch (\MongoDB\Exception\InvalidArgumentException $e) {
+             throw new BaseException("Wrong Argument was passed to updateOne(): filter: "
+                                     . json_encode($params) .
+                                     " update: ". json_encode($update) .'\n\r'. $e->getMessage(), 0, $e);
+        } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+            throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
+        }
+        
+        return $result;
+        
+    }
+    
+    public static function findOne($collection, $params = array())
+    {
+        try {
+            if (is_array($params) || is_object($params)) {
+                    $result = self::getInstance()->$collection->findOne($params);
+            } else {
+                $result = null;
+            }               
+        } catch (\MongoDB\Exception\InvalidArgumentException $e) {
+             throw new BaseException("Wrong Argument was passed to find() : ".json_encode($params), 0, $e);
         } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
             throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
         }

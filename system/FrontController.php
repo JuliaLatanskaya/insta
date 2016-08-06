@@ -10,11 +10,11 @@ class FrontController
     
     private $routeTable = array(
                             'default' =>
-                                array ('controller' => 'home', 'view' =>'view'),
+                                array ('controller' => 'home'),
                             'add' =>
-                                array ('controller' => 'post', 'view' =>'view', 'defaultAction' => 'createPost'),
-                            'someotherroute' =>
-                                array ('controller' => 'controller', 'view' =>'view')
+                                array ('controller' => 'post', 'defaultAction' => 'createPost'),
+                            'update' =>
+                                array ('controller' => 'post', 'defaultAction' => 'updatePost')
                         );
 
     public function __construct($config, $routeName, $action = null)

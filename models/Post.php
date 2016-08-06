@@ -19,23 +19,41 @@ class Post
         $this->title = $title;
     }
 
-    public static function getPosts($params = array())
+    public static function getPosts($params = array(), $sort = array())
     {
         $post = null;
         $list = [];
-        $posts = MongoDb::find('posts', array(), array('date' => -1));
+        $posts = MongoDb::find('posts', $params, $sort);
         
         if (!empty($posts)) {
             foreach ($posts as $entry) {
                 $post = new Post($entry['file'], $entry['title'], $entry['author']);
                 isset($entry['_id']) ? $post->setId($entry['_id']) : '';
                 isset($entry['date']) ? $post->setDate($entry['date']) : '';
-                isset($entry['views']) ? $post->setViews($entry['date']) : $post->setViews(0);
+                isset($entry['views']) ? $post->setViews($entry['views']) : $post->setViews(0);
                 $list[] = $post;
             }
         }
         
         return $list;
+    }
+    
+    public static function getPost($params = array())
+    {
+        $entry = MongoDb::findOne('posts', $params);
+        if (!empty($entry)) {
+            $post = new Post($entry['file'], $entry['title'], $entry['author']);
+            isset($entry['_id']) ? $post->setId($entry['_id']) : '';
+            isset($entry['date']) ? $post->setDate($entry['date']) : '';
+            isset($entry['views']) ? $post->setViews($entry['views']) : $post->setViews(0);
+        }
+        
+        return $post;
+    }
+    
+    public function update($update = array())
+    {
+        MongoDb::updateOne('posts', array('file' => $this->getFile()), $update);
     }
     
     public function save()

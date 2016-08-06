@@ -8,7 +8,7 @@ class HomeController
 {
     public function run()
     {
-        $posts = \Insta\models\Post::getPosts();
+        $posts = Post::getPosts(array(), array('date' => -1));
         $render = new RenderController();
         $render->setContent($render->renderTemplate('home/post.html', array('posts' => $posts)));
         $render->response();

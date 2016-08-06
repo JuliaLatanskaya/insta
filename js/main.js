@@ -19,5 +19,22 @@ $(document).ready(function() {
                 }               
             }
         });
-    }); 
+    });
+    
+    $('img[file]').click(function() {
+        var fileName = $(this).attr('file');
+        $.ajax({
+            type: 'POST',
+            url: '/update',
+            data: {
+                'file': fileName,
+            },
+            dataType: "json",
+            success: function(data) {
+                if (data.post) {
+                    window.location.reload();
+                }            
+            }
+        });
+    });
 });
