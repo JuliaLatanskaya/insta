@@ -26,9 +26,15 @@ Requirements:
 How to run application
 --------------
 - download it in the root of the web host
-	git clone git@github.com:JuliaLatanskaya/insta.git
+	```bash
+    git clone git@github.com:JuliaLatanskaya/insta.git
+    ```
 - Run MongoDB server
+    ```bash
 	mongod
+    ```
 - Install dependencies
+    ```bash
 	composer update
 	bower install
+    ```
