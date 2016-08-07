@@ -6,6 +6,8 @@ use Insta\models\PostsData;
 
 class HomeController
 {
+    function __construct() {}
+    
     public function run()
     {
         $posts = PostsData::getPosts(array(), array('date' => -1));

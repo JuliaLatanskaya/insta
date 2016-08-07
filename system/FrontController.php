@@ -18,7 +18,9 @@ class FrontController
                             'views' =>
                                 array ('controller' => 'post', 'defaultAction' => 'countViews'),
                             'posts' =>
-                                array ('controller' => 'post', 'defaultAction' => 'count')
+                                array ('controller' => 'post', 'defaultAction' => 'count'),
+                            'csv' =>
+                                array ('controller' => 'export', 'defaultAction' => 'csv')
                         );
 
     public function __construct($config, $routeName, $action = null)

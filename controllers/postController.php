@@ -6,7 +6,9 @@ use Insta\models\PostsData;
 use Insta\models\Post;
 
 class PostController
-{    
+{
+    public function __construct() {}
+    
     public function createPost()
     {
         $post = null;

@@ -11,7 +11,11 @@
             <div class="content">
                 <div class="top_bar">
                     <p>Posts: {{ totalPosts }}</p>
-                    <p><button>Export button</button></p>
+                    <p>
+                        <form action="/csv">
+                            <input type="submit" value="Export as CSV" />
+                        </form>
+                    </p>
                     <p>Views: {{ totalViews }}</p>  
                 </div>
                 <div class="reply_box">
