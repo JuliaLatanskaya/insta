@@ -5,8 +5,19 @@ use Insta\system\BaseException;
 
 class FileUploader
 {
+    /**
+     * @var string
+     */
     private $storageDir = 'uploads';
+    
+    /**
+     * @var string
+     */
     public $error = null;
+    
+    /**
+     * @var string storedFileName
+     */
     public $uploadedFile = null;
     
     public function __construct()
@@ -19,6 +30,12 @@ class FileUploader
             $this->storage = FrontController::$config['basePath'] .'/'. $this->storageDir;
         }
     }
+    
+    /**
+     * This method checks uploaded file for size (2MB and 1920 x 1080 is allowed),
+     * type JPG, PNG, GIF only. This method needs refactoring.
+     * @return string | null fileName of saved file
+     */
     
     public function uploadedFile()
     {
@@ -40,7 +57,6 @@ class FileUploader
                     }
                 } else {
                     $this->error = 'This image was not loaded';
-                    //TODO: Logger
                 }
                 
                 if(!$this->error) {
@@ -49,14 +65,15 @@ class FileUploader
                         if (move_uploaded_file($_FILES['photo']['tmp_name'], $uniqueTempFile. '.' . $fileExtension)) {
                             $this->uploadedFile = pathinfo($uniqueTempFile, PATHINFO_FILENAME) . '.' . $fileExtension;
                         } else {
-                            $this->error = 'Can\'t save file';  //TODO: exception
-                            //TODO: Logger
+                            $this->error = 'Can\'t save file';
+                            FrontController::$logger->error('file '.$_FILES['photo']['tmp_name']. " couldn\'t be
+                                                           moved to $uniqueTempFile.$fileExtension");
                         }
                         
                         unlink($uniqueTempFile);
                     } else {
-                        $this->error = 'Can\'t create unique file'; //TODO: exception
-                        //TODO: Logger
+                        $this->error = 'Can\'t create unique file';
+                        FrontController::$logger->error("cann\'t create unique file inside {$this->storag}");
                     }
                 }
             } else {
@@ -64,11 +81,11 @@ class FileUploader
                     $this->error = 'Oops! This image size in not suppoerted. Maximum allowed size: 2Mb.';
                 } else {
                     $this->error = 'This image couldn\'t be loaded';
-                    //TODO: Logger 'Ooops! Your upload triggered the following error: '.$_FILES['photo']['error'];
+                    FrontController::$logger->error("this upload triggered the following error: "
+                                                    .$_FILES['photo']['error']);
                 }
             }
         } else {
-            //TODO: Logger
             $this->error = 'No file was loaded';
         }
         
