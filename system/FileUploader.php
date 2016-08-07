@@ -1,7 +1,7 @@
 <?php
 namespace Insta\system;
 
-use Insta\libs\BaseException;
+use Insta\system\BaseException;
 
 class FileUploader
 {

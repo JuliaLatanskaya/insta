@@ -1,7 +1,7 @@
 <?php
 namespace Insta\models;
 
-use Insta\libs\MongoDb;
+use Insta\system\MongoDb;
 
 class Post
 {

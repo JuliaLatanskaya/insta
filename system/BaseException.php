@@ -1,5 +1,5 @@
 <?php
-namespace Insta\libs;
+namespace Insta\system;
 
 class BaseException extends \Exception
 {
