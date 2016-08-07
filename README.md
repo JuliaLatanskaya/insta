@@ -16,8 +16,8 @@ Installation
 ==============
 Requirements:
 --------------
-- PHP7
-- Apache/2.4.18 with web host configured
+- PHP7 with mod_rewrite enabled
+- Apache/2.4.18 with web host configured with AllowOverride All
 - Installed composer (see https://getcomposer.org/)
 - Installed bower (see https://bower.io/)
 - MongoDB server/3.2.8 (see https://www.mongodb.com/download-center)
@@ -42,4 +42,10 @@ How to run application
     ```
 	composer update
 	bower install
+    ```
+- Change permissions to upload/ and logs/ folders
+
+    ```
+    chmod o+w ./logs
+    chmod o+w ./uploads
     ```
