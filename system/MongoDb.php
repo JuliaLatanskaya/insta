@@ -3,14 +3,30 @@ namespace Insta\system;
 
 use Insta\system\BaseException;
 
+/**
+ * Decorator class is used to access Php Mongodb Driver via \MongoDB 
+ */
 class MongoDb
 {
-    //private static $user = 'instaAdmin';
-    //private static $passw = 'secretpwd';
+    /**
+     * @var \MongoDB\Client class. For more info visit @link http://php.net/mongodb
+     */
     private $connection;
+    
+    /**
+     * @var string default database name
+     */
     private static $database = 'insta';
+    
+    /**
+     * Keeps Singletone instance of MongoDb class.
+     * @var MongoDb
+     */
     private static $instance = NULL;
 
+    /**
+     * Defined private to support Singletone realisation
+     */
     private function __construct() {
         try {
             $this->connection = new \MongoDB\Client("mongodb://localhost:27017");
@@ -19,9 +35,20 @@ class MongoDb
             throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
         }
     }
-
+    
+    /**
+     * Defined private to support Singletone realisation
+     */
     private function __clone() {}
-
+    
+    /**
+     * Defined private to support Singletone realisation
+     */
+    private function __wakeup() {}
+    
+    /**
+     * @return MongoDb instance
+     */
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
@@ -31,6 +58,11 @@ class MongoDb
         return self::$instance;
     }
     
+    /**
+     * Insert one entity
+     * @param string $collection
+     * @param array | object $object
+     */
     public function insert($collection, $object)
     {
         if (is_array($object) || is_object($object)) {
@@ -46,6 +78,12 @@ class MongoDb
         }
     }
     
+    /**
+     * @param string $collection
+     * @param array | object $params
+     * @param array | object $sort
+     * @return array of nested arrays
+     */    
     public function find($collection, $params = array(), $sort = array())
     {
         try {
@@ -65,6 +103,12 @@ class MongoDb
         return $result;
     }
     
+    /**
+     * @param string $collection
+     * @param array | object $params
+     * @param array | object $update
+     * @return array with updated entity
+     */
     public function updateOne($collection, $params, $update)
     {
         try {
@@ -83,6 +127,11 @@ class MongoDb
         
     }
     
+    /**
+    * @param string $collection
+    * @param array | object $params
+    * @return array with requested entity
+    */
     public function findOne($collection, $params = array())
     {
         try {
@@ -100,6 +149,11 @@ class MongoDb
         return $result;
     }
     
+    /**
+    * @param string $collection
+    * @param array | object $pipeline see @link https://docs.mongodb.com/manual/core/aggregation-pipeline/
+    * @return array with requested data
+    */
     public function aggregate($collection, $pipeline)
     {
         try {
@@ -114,6 +168,11 @@ class MongoDb
         return $result;
     }
     
+    /**
+    * @param string $collection
+    * @param array | object $params
+    * @return int counted amount of documents in the collection
+    */
     public function count($collection, $params = array())
     {
         try {

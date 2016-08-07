@@ -5,12 +5,39 @@ use Insta\system\MongoDb;
 
 class Post
 {
+    /**
+     * @var ObjectId. See @https://docs.mongodb.com/manual/reference/method/ObjectId/
+     */
     private $id = null;
+    
+    /**
+     * @var string
+     */
     public $file = null;
+    
+    /**
+     * @var string
+     */
     public $author = null;
+    
+    /**
+     * @var string
+     */
     public $title = null;
+    
+    /**
+     * @var string
+     */
     public $date = null;
+    
+    /**
+     * @var int
+     */
     public $views = 0;
+    
+    /**
+     * @var MongoDb instance
+     */
     private $db;
 
     public function __construct($file, $title = '', $author = 'user')
@@ -21,6 +48,9 @@ class Post
         $this->db = MongoDb::getInstance();
     }
     
+    /**
+     * @param array | object
+     */
     public function update($update = array())
     {
         $this->db->updateOne('posts', array('file' => $this->getFile()), $update);
@@ -31,6 +61,9 @@ class Post
         $this->db->insert('posts', $this);
     }
     
+    /**
+     * @param ObjectId
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -41,6 +74,9 @@ class Post
         return $this->id;
     }
     
+    /**
+     * @param string @date
+     */
     public function setDate($date)
     {
         $this->date = $date;
@@ -51,6 +87,9 @@ class Post
         return $this->date;
     }
     
+    /**
+     * @param int $views
+     */
     public function setViews($views)
     {
         $this->views = $views;

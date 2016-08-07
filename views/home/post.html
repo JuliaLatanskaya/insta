@@ -1,4 +1,7 @@
 {% for post in posts %}
     <p>{{ post.title }}</p>
-    <img file="{{ post.file }}" src="http://{{ siteBase }}/uploads/{{ post.file }}" alt="{{ post.title }}" />
+    <a href="http://{{ siteBase }}/uploads/{{ post.file }}" target="_blank">
+        <img title="Click to open in new tab" file="{{ post.file }}"
+             src="http://{{ siteBase }}/uploads/{{ post.file }}" alt="{{ post.title }}" />
+    </a>
 {% endfor %}

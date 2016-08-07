@@ -5,6 +5,11 @@ use Insta\system\MongoDb;
 
 class PostsData
 {
+    /**
+     * @param array | object $params
+     * @param array | object $sort
+     * @return array of Post entities
+     */
     public static function getPosts($params = array(), $sort = array())
     {
         $post = null;
@@ -26,6 +31,10 @@ class PostsData
         return $list;
     }
     
+    /**
+     * @param array | object $params
+     * @return Post entity
+     */
     public static function getPost($params = array())
     {
         $db = MongoDb::getInstance();
@@ -40,6 +49,9 @@ class PostsData
         return $post;
     }
     
+    /**
+     * @return int sum of 'views' in posts collection values 
+     */
     public static function getTotalViews()
     {
         $totalViews = 0;
@@ -59,6 +71,9 @@ class PostsData
         return $totalViews;
     }
     
+    /**
+     * @return int sum of all documents in posts collection 
+     */
     public static function getTotalPosts()
     {
         $db = MongoDb::getInstance();
