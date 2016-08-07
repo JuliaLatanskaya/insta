@@ -14,7 +14,11 @@ class FrontController
                             'add' =>
                                 array ('controller' => 'post', 'defaultAction' => 'createPost'),
                             'update' =>
-                                array ('controller' => 'post', 'defaultAction' => 'updatePost')
+                                array ('controller' => 'post', 'defaultAction' => 'updatePost'),
+                            'views' =>
+                                array ('controller' => 'post', 'defaultAction' => 'countViews'),
+                            'posts' =>
+                                array ('controller' => 'post', 'defaultAction' => 'count')
                         );
 
     public function __construct($config, $routeName, $action = null)

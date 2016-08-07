@@ -2,6 +2,7 @@
 namespace Insta\controllers;
 
 use Insta\system\FileUploader;
+use Insta\models\PostsData;
 use Insta\models\Post;
 
 class PostController
@@ -26,7 +27,7 @@ class PostController
         $post = null;
         $file = !empty($_POST['file']) ? (string)$_POST['file'] : '';
         if (!empty($file)) {
-            $post = Post::getPost(array('file' => $file));
+            $post = PostsData::getPost(array('file' => $file));
             if (!empty($post)) {
                 $post->setViews($post->getViews() + 1);
                 $post->update(array('views' => $post->getViews()));
@@ -34,6 +35,5 @@ class PostController
         }
         
         echo json_encode(array('post' => $post));
-        
     }
 }

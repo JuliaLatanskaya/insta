@@ -15,6 +15,7 @@ require_once('system/RenderController.php');
 require_once('system/FileUploader.php');
 
 require_once('models/Post.php');
+require_once('models/PostsData.php');
 
 try {
     $frontController = new FrontController(

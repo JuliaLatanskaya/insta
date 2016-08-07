@@ -7,6 +7,7 @@ class RenderController
 {
     private $twig;
     private $content;
+    public $params = array();
 
     public function __construct()
     {
@@ -32,13 +33,19 @@ class RenderController
         return $this->twig->render($template, $params); 
     }
     
-    private function render()
+    public function setParam($param, $value)
     {
-        return $this->twig->render('layout.html', array('content' => $this->content));
+        $this->params[$param] = $value;
     }
     
     public function response()
     {
         echo $this->render();
+    }
+    
+    private function render()
+    {
+        $this->params = array_merge($this->params, array('content' => $this->content));
+        return $this->twig->render('layout.html', $this->params);
     }
 }

@@ -7,33 +7,35 @@ class MongoDb
 {
     //private static $user = 'instaAdmin';
     //private static $passw = 'secretpwd';
+    private $connection;
     private static $database = 'insta';
     private static $instance = NULL;
 
-    private function __construct() {}
+    private function __construct() {
+        try {
+            $this->connection = new \MongoDB\Client("mongodb://localhost:27017");
+            $this->connection = $this->connection->{ self::$database }; 
+        } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+            throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
+        }
+    }
 
     private function __clone() {}
 
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
-            try {
-                self::$instance = new \MongoDB\Client("mongodb://localhost:27017");
-                //self::$instance = new MongoDB\Client('mongodb://'.self::$user.':'.self::$passw.'@localhost:27017/'.self::$database);
-                self::$instance = self::$instance->{ self::$database };
-            } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
-                throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
-            }
+            self::$instance = new MongoDb();
         }
         
         return self::$instance;
     }
     
-    public static function insert($collection, $object)
+    public function insert($collection, $object)
     {
         if (is_array($object) || is_object($object)) {
             try {
-                self::getInstance()->$collection->insertOne($object);
+                $this->connection->$collection->insertOne($object);
             } catch (\MongoDB\Exception\InvalidArgumentException $e) {
                  throw new BaseException("Wrong Argument was passed to insert(): " . $e->getMessage(), 0, $e);
             } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
@@ -44,14 +46,14 @@ class MongoDb
         }
     }
     
-    public static function find($collection, $params = array(), $sort = array())
+    public function find($collection, $params = array(), $sort = array())
     {
         try {
             if (is_array($params) || is_object($params)) {
                 if (!empty($sort) && (is_array($params) || is_object($params))) {
-                    $result = self::getInstance()->$collection->find($params, array('sort' => $sort));
+                    $result = $this->connection->$collection->find($params, array('sort' => $sort));
                 } else {
-                    $result = self::getInstance()->$collection->find($params); 
+                    $result = $this->connection->$collection->find($params); 
                 }               
             }
         } catch (\MongoDB\Exception\InvalidArgumentException $e) {
@@ -63,11 +65,11 @@ class MongoDb
         return $result;
     }
     
-    public static function updateOne($collection, $params, $update)
+    public function updateOne($collection, $params, $update)
     {
         try {
             if ((is_array($params) || is_object($params)) && (is_array($update) || is_object($update))) {
-                $result = self::getInstance()->$collection->updateOne($params, array('$set' => $update));                             
+                $result = $this->connection->$collection->updateOne($params, array('$set' => $update));                             
             }
         } catch (\MongoDB\Exception\InvalidArgumentException $e) {
              throw new BaseException("Wrong Argument was passed to updateOne(): filter: "
@@ -81,16 +83,44 @@ class MongoDb
         
     }
     
-    public static function findOne($collection, $params = array())
+    public function findOne($collection, $params = array())
     {
         try {
             if (is_array($params) || is_object($params)) {
-                    $result = self::getInstance()->$collection->findOne($params);
+                $result = $this->connection->$collection->findOne($params);
             } else {
                 $result = null;
             }               
         } catch (\MongoDB\Exception\InvalidArgumentException $e) {
              throw new BaseException("Wrong Argument was passed to find() : ".json_encode($params), 0, $e);
+        } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+            throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
+        }
+        
+        return $result;
+    }
+    
+    public function aggregate($collection, $pipeline)
+    {
+        try {
+           $result = $this->connection->$collection->aggregate($pipeline)->toArray();
+        } catch (\MongoDB\Exception\InvalidArgumentException $e) {
+             throw new BaseException("Wrong Argument was passed to aggregate() : ".json_encode($pipeline).
+                                     ". Original message: ". $e->getMessage(), 0, $e);
+        } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
+            throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
+        }
+        
+        return $result;
+    }
+    
+    public function count($collection, $params = array())
+    {
+        try {
+           $result = $this->connection->$collection->count($params);
+        } catch (\MongoDB\Exception\InvalidArgumentException $e) {
+             throw new BaseException("Wrong Argument was passed to count() : ".json_encode($params).
+                                     ". Original message: ". $e->getMessage(), 0, $e);
         } catch (\MongoDB\Driver\Exception\ConnectionTimeoutException $e) {
             throw new BaseException("Connection with database missed: ".$e->getMessage(), 0, $e);
         }
