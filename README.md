@@ -28,18 +28,18 @@ How to run application
 - download it in the root of the web host
 
 	```
-    - git clone git@github.com:JuliaLatanskaya/insta.git
+    git clone git@github.com:JuliaLatanskaya/insta.git
     ```
     
 - Run MongoDB server
 
     ```
-	- mongod
+	mongod
     ```
     
 - Install dependencies
 
     ```
-	- composer update
-	- bower install
+	composer update
+	bower install
     ```
