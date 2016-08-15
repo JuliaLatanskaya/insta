@@ -3,6 +3,7 @@
     "require": {
         "mongodb/mongodb": "^1.0.0",
         "twig/twig": "~1.0",
-        "katzgrau/klogger": "dev-master"
+        "katzgrau/klogger": "dev-master",
+        "phpunit/phpunit": "5.5.*"
     }
 }
